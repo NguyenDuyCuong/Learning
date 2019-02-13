@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-16"?>
+<DevTrackerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SolutionTotalEditTime="PT5M32.1026366S" SolutionTotalViewTime="PT9M48.8678762S" SolutionTotalDebugTime="PT3M38.9452443S">
+  <FileVersion>
+    <Major>1</Major>
+    <Minor>0</Minor>
+  </FileVersion>
+  <SolutionFolder>F:\Home\Git\Learning\MLNet\SentimentAnalysis</SolutionFolder>
+  <SessionTimeList />
+  <LastSessionTimeList>
+    <DevTrackerDataItem ViewActiveTime="PT3M38.9452443S" EditActiveTime="PT0S">
+      <ModifiedDate>0001-01-01T00:00:00</ModifiedDate>
+      <EditedCount>0</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>Debug Mode</Item>
+      <ItemType>DebugModeItem</ItemType>
+      <ProjectName />
+      <CreatedDate>2019-02-13T13:52:34.6021934+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT9M14.6205764S" EditActiveTime="PT3M40.7539074S">
+      <ModifiedDate>2019-02-13T13:52:21.8188387+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Program.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:28:58.5842884+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT10.6116907S" EditActiveTime="PT1M48.10391S">
+      <ModifiedDate>2019-02-13T13:52:21.8088401+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentData.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:34:58.9209141+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT19.883914S" EditActiveTime="PT1.5295839S">
+      <ModifiedDate>2019-02-13T13:32:17.7518994+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Data\wikipedia-detox-250-line-data.tsv</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:32:10.5489151+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT3.7896996S" EditActiveTime="PT1.7122309S">
+      <ModifiedDate>2019-02-13T13:32:55.5567718+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Data\wikipedia-detox-250-line-test.tsv</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:32:48.5556402+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+  </LastSessionTimeList>
+  <TotalTimeList>
+    <DevTrackerDataItem ViewActiveTime="PT3M38.9452443S" EditActiveTime="PT0S">
+      <ModifiedDate>0001-01-01T00:00:00</ModifiedDate>
+      <EditedCount>0</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>Debug Mode</Item>
+      <ItemType>DebugModeItem</ItemType>
+      <ProjectName />
+      <CreatedDate>2019-02-13T13:52:34.6021934+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT9M14.5865767S" EditActiveTime="PT3M40.7539074S">
+      <ModifiedDate>2019-02-13T13:52:21.8188387+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Program.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:28:58.5842884+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT10.6116907S" EditActiveTime="PT1M48.10391S">
+      <ModifiedDate>2019-02-13T13:52:21.8088401+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentData.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:34:58.9209141+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT19.883914S" EditActiveTime="PT1.5295839S">
+      <ModifiedDate>2019-02-13T13:32:17.7518994+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Data\wikipedia-detox-250-line-data.tsv</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:32:10.5489151+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT3.7896996S" EditActiveTime="PT1.7122309S">
+      <ModifiedDate>2019-02-13T13:32:55.5567718+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Data\wikipedia-detox-250-line-test.tsv</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:32:48.5556402+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+  </TotalTimeList>
+  <HistoryTimeList>
+    <DevTrackerDataItem ViewActiveTime="PT3M38.9452443S" EditActiveTime="PT0S">
+      <ModifiedDate>0001-01-01T00:00:00</ModifiedDate>
+      <EditedCount>0</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>Debug Mode</Item>
+      <ItemType>DebugModeItem</ItemType>
+      <ProjectName />
+      <CreatedDate>2019-02-13T13:52:34.6021934+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT10.6116907S" EditActiveTime="PT1M48.10391S">
+      <ModifiedDate>2019-02-13T13:52:21.8088401+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentData.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:34:58.9209141+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT3.7896996S" EditActiveTime="PT1.7122309S">
+      <ModifiedDate>2019-02-13T13:32:55.5567718+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Data\wikipedia-detox-250-line-test.tsv</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:32:48.5556402+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT19.883914S" EditActiveTime="PT1.5295839S">
+      <ModifiedDate>2019-02-13T13:32:17.7518994+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Data\wikipedia-detox-250-line-data.tsv</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:32:10.5489151+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+    <DevTrackerDataItem ViewActiveTime="PT9M14.5865767S" EditActiveTime="PT3M40.7539074S">
+      <ModifiedDate>2019-02-13T13:52:21.8188387+07:00</ModifiedDate>
+      <ModifiedBy>cuongnd</ModifiedBy>
+      <EditedCount>1</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\Program.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>F:\Home\Git\Learning\MLNet\SentimentAnalysis\SentimentAnalysis\SentimentAnalysis.csproj</ProjectName>
+      <CreatedDate>2019-02-13T13:28:58.5842884+07:00</CreatedDate>
+      <ViewedBy>cuongnd</ViewedBy>
+    </DevTrackerDataItem>
+  </HistoryTimeList>
+</DevTrackerData>
