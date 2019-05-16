@@ -7,15 +7,15 @@ import 'hammerjs';
 import { MaterialModule } from './material-extension';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent, CategoriesComponent } from './components';
+import { AppComponent, CategoriesComponent, TagsComponent, QuestionsComponent, QuestionAddUpdateComponent } from './components';
 import { CategoryService, QuestionService, TagService } from './services';
-import { TagsComponent } from './components/tags/tags.component';
-import { QuestionsComponent } from './components/questions/questions.component';
 
 @NgModule({
   declarations: [
-    AppComponent, CategoriesComponent, TagsComponent, QuestionsComponent
+    AppComponent, CategoriesComponent, TagsComponent, QuestionsComponent, QuestionAddUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +23,7 @@ import { QuestionsComponent } from './components/questions/questions.component';
     HttpClientModule,
     MaterialModule,
     FlexLayoutModule,
+    FormsModule, ReactiveFormsModule,
     AppRoutingModule
   ],
   providers: [

@@ -1,0 +1,46 @@
+<mat-card>
+  <form class="question-form">
+    <mat-card-title>Add Question</mat-card-title>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-select placeholder="Category" name="category">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{category.categoryName}}
+          </mat-option>
+        </mat-select>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-form-field class="full-width">
+          <input mat-input placeholder="Question">
+        </mat-form-field>
+        <p *ngFor="let index of [1,2,3,4]">
+
+          <mat-form-field class="full-width">
+            <mat-checkbox mat-prefix></mat-checkbox>
+            <input mat-input [placeholder]="'Answer ' + index" />
+            <mat-hint align="end">Answer {{index}}</mat-hint>
+          </mat-form-field>
+        </p>
+      </mat-list>
+      <p>
+        <mat-form-field>
+          <input mat-input placeholder="Tag">
+        </mat-form-field>
+      </p>
+      <mat-chip-list>
+        <mat-chip>
+          Tag 1
+        </mat-chip>
+        <mat-chip>
+          Tag 2
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>SAVE</button>
+      <button mat-button>CANCEL</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

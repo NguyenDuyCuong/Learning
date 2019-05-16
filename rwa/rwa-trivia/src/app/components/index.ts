@@ -7,6 +7,7 @@ import {
 import {
   QuestionsComponent
 } from './questions/questions.component';
+import { QuestionAddUpdateComponent } from './questions/question-add-update.component';
 import {
   TagsComponent
 } from './tags/tags.component';
@@ -14,10 +15,10 @@ import {
 export {
   AppComponent,
   CategoriesComponent,
-  QuestionsComponent,
+  QuestionsComponent, QuestionAddUpdateComponent,
   TagsComponent
 };
 
 export default [
-  AppComponent, CategoriesComponent, QuestionsComponent, TagsComponent
+  AppComponent, CategoriesComponent, QuestionsComponent, QuestionAddUpdateComponent, TagsComponent
 ];
