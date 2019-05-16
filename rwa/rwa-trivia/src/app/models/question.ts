@@ -8,6 +8,7 @@ export class Question {
     explanation?: string;
     tags: string[];
     categories: Category[];
+    categoryIds: number[];
     published: boolean;
     status: QuestionStatus;
     createdBy?: string;

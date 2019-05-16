@@ -1,11 +1,29 @@
-<h3>Questions</h3>
-<ul>
-  <li *ngFor="let question of questions">
-    <span>{{question.questionText}}</span>
-    <ul>
-      <li *ngFor="let answer of question.answers" class="answer" [class.correct]="answer.correct">
-        <span>{{answer.answerText}}</span>
-      </li>
-    </ul>
-  </li>
-</ul>
+<mat-card>
+  <mat-card-title>Questions</mat-card-title>
+  <mat-card-content class="flex-container" fxLayoutWrap="wrap" fxLayout="row" fxLayoutAlign="center" fxLayoutAlign.xs="start">
+    <mat-card *ngFor="let question of questions" class="flex-item question-card">
+      <mat-card-header>
+        <mat-card-title>
+          <span *ngFor="let category of question.categories">
+            {{category.categoryName}}
+          </span>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{question.questionText}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list dense>
+          <mat-list-item *ngFor="let answer of question.answers">
+            {{answer.answerText}}<mat-icon *ngIf="answer.correct" mat-list-icon>check</mat-icon>
+          </mat-list-item>
+        </mat-list>
+        <mat-chip-list>
+          <mat-chip *ngFor="let tag of question.tags">
+            {{tag}}
+          </mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

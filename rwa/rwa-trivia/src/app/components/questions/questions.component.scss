@@ -1,0 +1,18 @@
+mat-card-content>:last-child,
+mat-card>:last-child {
+  margin-bottom: 15px;
+}
+
+mat-card-content>:first-child,
+mat-card>:first-child {
+  margin-top: 15px;
+}
+
+mat-card {
+  margin: 15px;
+}
+
+.question-card {
+  width: 400px;
+  min-width: 350px;
+}

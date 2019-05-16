@@ -1,6 +1,8 @@
-<h3>Categories</h3>
-<ul>
-  <li *ngFor="let category of categories">
-    <span>{{category.categoryName}}</span>
-  </li>
-</ul>
+<mat-card>
+  <mat-card-title>Categories</mat-card-title>
+  <mat-list>
+    <mat-list-item *ngFor="let category of categories">
+      <span>{{category.categoryName}}</span>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
