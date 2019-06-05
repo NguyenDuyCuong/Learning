@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  hrtoolsweb:
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - /mosquitto/data
+      - /mosquitto/log
+    ports:
+      - 18833:1883
+      - 8080:8080
+      - 8081:8081
+      - 9001:9001
