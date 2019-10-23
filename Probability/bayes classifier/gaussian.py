@@ -2,6 +2,7 @@
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,14 +20,14 @@ xtest = test.drop('Species', axis=1)
 ytest = test.loc[:, 'Species']
 
 # Visualizing the distribution of a dataset
-sns.distplot(xtrain.iloc[:, 0], rug=True)
-plt.show()
-sns.pairplot(xtrain)
-plt.show()
-sns.jointplot(x="Sepal.Length", y="Sepal.Width", data=xtrain, kind="hex")
-plt.show()
-sns.jointplot(x="Petal.Length", y="Petal.Width", data=xtrain, kind="kde")
-plt.show()
+# sns.distplot(xtrain.iloc[:, 0], rug=True)
+# plt.show()
+# sns.pairplot(xtrain)
+# plt.show()
+# sns.jointplot(x="Sepal.Length", y="Sepal.Width", data=xtrain, kind="hex")
+# plt.show()
+# sns.jointplot(x="Petal.Length", y="Petal.Width", data=xtrain, kind="kde")
+# plt.show()
 
 # Init the Gaussian Classifier
 model = GaussianNB()
@@ -36,6 +37,7 @@ model.fit(xtrain, ytrain)
 
 # Predict Output
 pred = model.predict(xtest)
+print("Accuracy:", metrics.accuracy_score(ytest, pred))
 
 # Plot Confusion Matrix
 mat = confusion_matrix(pred, ytest)

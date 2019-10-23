@@ -2,6 +2,7 @@
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,6 +37,7 @@ model.fit(xtrain, ytrain)
 
 # Predict Output
 pred = model.predict(xtest)
+print("Accuracy:", metrics.accuracy_score(ytest, pred))
 
 # Plot Confusion Matrix
 mat = confusion_matrix(pred, ytest)
