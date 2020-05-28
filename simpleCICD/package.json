@@ -1,0 +1,20 @@
+{
+  "name": "simplecicd",
+  "version": "1.0.0",
+  "description": "Simple CI/CD",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CI/CD"
+  ],
+  "author": "CuongND@outlook.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "minimist": "^1.2.5",
+    "morgan": "^1.10.0",
+    "rotating-file-stream": "^2.1.1"
+  }
+}
