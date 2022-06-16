@@ -1,0 +1,12 @@
+<a
+    class="ce-url-sort-selector__field"
+    *ngFor="let field of fields"
+    [routerLink]="['.']"
+    [queryParams]="field.queryParams"
+    [queryParamsHandling]="'merge'"
+    title="Sort by {{field.name | lowercase}}"
+>
+    {{field.name}}
+    <ng-container *ngIf="field.order === SortOrder.Asc">▲</ng-container>
+    <ng-container *ngIf="field.order === SortOrder.Desc">▼</ng-container>
+</a>
