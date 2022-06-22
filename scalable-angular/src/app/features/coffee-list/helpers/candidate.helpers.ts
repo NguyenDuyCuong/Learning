@@ -23,7 +23,7 @@ function prettifyVoteDates(candidate: Candidate): Candidate {
                 date: dateHelpers.convertISOToHuman(vote.date),
             };
         }),
-    };
+    } as Candidate;
 }
 
 function getCandidateWithUserActions(
@@ -35,7 +35,7 @@ function getCandidateWithUserActions(
         userAction: hasUserVotedForCandidate(user, candidate)
             ? UserAction.RemoveVote
             : UserAction.AddVote,
-    };
+    } as Candidate;
 }
 
 function hasUserVotedForCandidate(user: User, candidate: Candidate) {

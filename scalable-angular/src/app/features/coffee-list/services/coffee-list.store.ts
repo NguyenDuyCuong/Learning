@@ -6,7 +6,7 @@ import {takeUntil, tap, switchMap, retry} from 'rxjs/operators';
 import {CoffeeListStoreState} from './coffee-list.store.state';
 import {CoffeeListEndpoint} from './coffee-list.endpoint';
 import {ModalComponent} from '../../../shared/components/modal/modal.component';
-import {Candidate} from '../types/candidate';
+import {Candidate, ICandidate} from '../types/candidate';
 import * as candidateHelpers from '../helpers/candidate.helpers';
 import {UserStore} from '../../../core/user/services/user.store';
 import {User} from '../../../core/user/types/user';
@@ -15,6 +15,7 @@ import * as endpointHelpers from '../../../shared/helpers/endpoint.helpers';
 import {StoreRequestStateUpdater} from '../../../shared/types/store-request-state-updater';
 import {CustomRequestStateUpdater} from '../../../shared/types/custom-request-state-updater';
 import {Sort} from '../../../shared/types/sort';
+import { NullCandidate } from '../types/null-candidate';
 
 @Injectable()
 export class CoffeeListStore extends Store<CoffeeListStoreState>
@@ -59,11 +60,11 @@ export class CoffeeListStore extends Store<CoffeeListStoreState>
     }
 
     closeDetailsModal(): void {
-        this.setDetailsModalState(undefined);
+        this.setDetailsModalState(new NullCandidate());
         this.detailsModal.close();
     }
 
-    setDetailsModalState(candidate: Candidate): void {
+    setDetailsModalState(candidate: ICandidate = new NullCandidate()): void {
         this.setState({
             ...this.state,
             detailsModal: {

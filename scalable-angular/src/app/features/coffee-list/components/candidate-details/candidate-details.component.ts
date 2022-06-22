@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Candidate } from '../../types/candidate';
+import { NullCandidate } from '../../types/null-candidate';
 
 @Component({
   selector: 'app-candidate-details',
@@ -9,5 +10,5 @@ import { Candidate } from '../../types/candidate';
 })
 export class CandidateDetailsComponent {
   @Input()
-  candidate: Candidate;
+  candidate?: Candidate = new NullCandidate();
 }

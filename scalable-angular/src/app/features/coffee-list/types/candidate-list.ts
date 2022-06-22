@@ -1,7 +1,7 @@
-import {Candidate} from './candidate';
+import {ICandidate} from './candidate';
 import {Sort} from '@shared/types/sort';
 
 export interface CandidateList {
-    candidates: Candidate[];
+    candidates: ICandidate[];
     sort: Sort;
 }

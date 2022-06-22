@@ -1,21 +1,21 @@
 <ng-container *ngIf="{state$: store.state$ | async} as subs">
     <app-url-sort-selector
         class="ce-url-sort-selector ce-coffee-list-view__sort-selector"
-        [sort]="subs.state$.candidateList.sort"
+        [sort]="{field: '',order: 1}"
         [fields]="[{name: 'Votes', field: 'votes'}, {name: 'Name', field: 'name'}]"
     ></app-url-sort-selector>
 
     <div
         class="ce-panel ce-coffee-list-view__list-item"
-        *ngIf="subs.state$.requests.listCandidates.inProgress"
+        *ngIf="subs.state$?.requests?.listCandidates?.inProgress"
     >
         <div class="ce-loader ce-loader--takeover"></div>
     </div>
 
-    <ng-container *ngIf="!subs.state$.requests.listCandidates.inProgress">
+    <ng-container *ngIf="!subs.state$?.requests?.listCandidates?.inProgress">
         <div
             class="ce-panel ce-coffee-list-view__list-item"
-            *ngFor="let candidate of subs.state$.candidateList.candidates"
+            *ngFor="let candidate of subs.state$?.candidateList?.candidates"
         >
             <app-coffee-candidate
                 class="ce-coffee-candidate ce-coffee-list-view__candidate"
@@ -35,12 +35,12 @@
     <app-modal
         #detailsModal
         class="ce-modal"
-        (onClose)="store.setDetailsModalState(null)"
+        (onClose)="store.setDetailsModalState()"
     >
         <app-candidate-details
             class="ce-coffee-list-view__candidate-details"
-            *ngIf="subs.state$.detailsModal.candidate"
-            [candidate]="subs.state$.detailsModal.candidate"
+            *ngIf="subs.state$?.detailsModal?.candidate"
+            [candidate]="subs.state$?.detailsModal?.candidate"
         ></app-candidate-details>
         <div class="ce-modal__actions">
             <button
