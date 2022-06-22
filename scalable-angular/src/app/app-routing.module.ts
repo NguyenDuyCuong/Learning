@@ -1,15 +1,17 @@
 import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {routingPaths as coffeeListRoutingPaths} from './features/coffee-list/coffee-list-routing.module';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: coffeeListRoutingPaths.coffeeList,
+        redirectTo: 'coffee',
         pathMatch: 'full',
     },
+    {
+        path: 'coffee',
+        loadChildren: () => import('./features/coffee-list/coffee-list.module').then(m => m.CoffeeListModule)},
     {path: '**', component: PageNotFoundComponent},
 ];
 
