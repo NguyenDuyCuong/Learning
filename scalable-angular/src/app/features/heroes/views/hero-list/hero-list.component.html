@@ -1,0 +1,9 @@
+<h2>My Heroes</h2>
+<ul class="heroes" *ngIf="{state$: store.state$ | async} as subs">
+    <li *ngFor="let hero of subs.state$?.heroList?.heroes">
+        <button type="button">
+            <span class="badge">{{hero.id}}</span>
+            <span class="name">{{hero.name}}</span>
+        </button>
+    </li>
+</ul>

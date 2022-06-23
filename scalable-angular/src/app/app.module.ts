@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { CoffeeListModule } from './features/coffee-list/coffee-list.module';
 import { LayoutModule } from './layout/layout.module';
 import { ViewsModule } from './views/views.module';
+import { HeroesModule } from './features/heroes/heroes.module';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,10 @@ import { ViewsModule } from './views/views.module';
 
     // Feature modules
     CoffeeListModule,
+    HeroesModule,
 
     // App routing - should be the last import!
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
