@@ -24,6 +24,7 @@ export class HeroesEndpoint {
         return this.http.get<ApiResponse<Hero[]>>(request.url, options)
         .pipe(
             map(response => {
+                requestStateUpdater(request.name, {inProgress: false});
                 return response.data;
             }),
             catchError((error: HttpErrorResponse)=> {

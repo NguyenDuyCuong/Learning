@@ -1,9 +1,40 @@
-<h2>My Heroes</h2>
-<ul class="heroes" *ngIf="{state$: store.state$ | async} as subs">
-    <li *ngFor="let hero of subs.state$?.heroList?.heroes">
-        <button type="button">
-            <span class="badge">{{hero.id}}</span>
-            <span class="name">{{hero.name}}</span>
-        </button>
-    </li>
-</ul>
+<ng-container *ngIf="{state$: store.state$ | async} as subs">
+    <div
+        class="ce-panel ce-coffee-list-view__list-item"
+        *ngIf="subs.state$?.requests?.listHeroes?.inProgress"
+    >
+        Loading...
+    </div>
+    
+    <ng-container *ngIf="!subs.state$?.requests?.listHeroes?.inProgress">
+        <h2>My Heroes</h2>
+        <ul class="heroes" *ngIf="{state$: store.state$ | async} as subs">
+            <li *ngFor="let hero of subs.state$?.heroList?.heroes">
+                <button [class.selected]="hero === subs.state$?.detailsModal?.hero" type="button" (click)="store.openDetailsModal(hero)">
+                    <span class="badge">{{hero.id}}</span>
+                    <span class="name">{{hero.name}}</span>
+                </button>
+            </li>
+        </ul>
+    </ng-container>
+    
+    <app-modal
+            #detailsModal
+            class="ce-modal"
+            (onClose)="store.setDetailsModalState()"
+        >
+        <app-hero-detail
+            class="ce-coffee-list-view__candidate-details"
+            *ngIf="subs.state$?.detailsModal?.hero"
+            [hero]="subs.state$?.detailsModal?.hero"
+        ></app-hero-detail>
+        <div class="ce-modal__actions">
+            <button
+                class="ce-button ce-button--outline"
+                (click)="store.closeDetailsModal()"
+            >
+                Close
+            </button>
+        </div>
+    </app-modal>
+</ng-container>

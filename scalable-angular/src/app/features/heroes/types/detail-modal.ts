@@ -1,5 +1,5 @@
-import { Hero } from "./hero";
+import { IHero } from "./hero";
 
 export interface DetailsModal {
-    hero?: Hero;
+    hero?: IHero;
 }

@@ -5,12 +5,15 @@ import { Store } from "rxjs-observable-store";
 import { HeroesEndpoint } from "./heroes.endpoint";
 import { HeroesStoreState } from "./heroes.store.state";
 import * as endpointHelpers from '@shared/helpers/endpoint.helpers';
-import { Hero } from "../types/hero";
+import { Hero, IHero } from "../types/hero";
+import { ModalComponent } from "@app/shared/components/modal/modal.component";
+import { NullHero } from "../types/null-hero";
 
 @Injectable()
 export class HeroesStore extends Store<HeroesStoreState> implements OnDestroy {
     private ngUnsubscribe$: Subject<undefined> = new Subject();
     private reloadHeroes$: Subject<undefined> = new Subject();
+    private detailsModal: ModalComponent;
     private storeRequestStateUpdater: StoreRequestStateUpdater;
 
     constructor(private endpoint: HeroesEndpoint){
@@ -30,6 +33,29 @@ export class HeroesStore extends Store<HeroesStoreState> implements OnDestroy {
     
     reloadHeroes(): void {
         this.reloadHeroes$.next(undefined);
+    }
+
+    setDetailsModal(detailsModal: ModalComponent): void {
+        this.detailsModal = detailsModal;
+    }
+
+    openDetailsModal(hero: Hero): void {
+        this.setDetailsModalState(hero);
+        this.detailsModal.open();
+    }
+
+    closeDetailsModal(): void {
+        this.setDetailsModalState(new NullHero());
+        this.detailsModal.close();
+    }
+
+    setDetailsModalState(hero: IHero = new NullHero()): void {
+        this.setState({
+            ...this.state,
+            detailsModal: {
+                hero
+            },
+        });
     }
 
     private initReloadHeroes$(): void {
