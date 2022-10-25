@@ -1,0 +1,58 @@
+const { mode } = require('crypto-js');
+const Websocket = require('ws');
+
+const P2P_PORT = process.env.P2P_PORT || 5001;
+const peers = process.env.PEERS.trim() ? process.env.PEERS.trim().split(',') : [];
+
+class P2PServer {
+    constructor(blockchain) {
+        this.blockchain = blockchain;
+        this.sockets = [];
+    }
+
+    listen() {
+        const server = new Websocket.Server({port: P2P_PORT});
+        server.on('connection', socket => this.connectSocket(socket));
+
+        this.connectPeers();
+
+        console.log(`Listening for P2P connection on: ${P2P_PORT}`)
+    }
+
+    connectPeers() {
+        peers.forEach(peer => {
+            // ws://localhost:5001
+            const socket = new Websocket(peer);
+
+            socket.on('open', () => this.connectSocket(socket));
+        });
+    }
+
+    connectSocket(socket) {
+        this.sockets.push(socket);
+        console.log('Socket connected');
+
+        this.messageHandler(socket);
+
+        this.sendChain(socket);
+    }
+
+    messageHandler(socket) {
+        socket.on('message', message => {
+            const data = JSON.parse(message);
+            console.log('data', data)
+
+            this.blockchain.replaceChain(data);
+        });
+    }
+
+    sendChain(socket) {
+        socket.send(JSON.stringify(this.blockchain.chain));
+    }
+
+    syncChains() {
+        this.sockets.forEach(socket => this.sendChain(socket));
+    }
+}
+
+module.exports = P2PServer;
