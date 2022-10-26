@@ -17,11 +17,15 @@
     "jest": "^29.2.1",
     "nodemon": "^2.0.20"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "dependencies": {
     "body-parser": "^1.20.1",
     "crypto-js": "^4.1.1",
-    "custom-env": "^2.0.1",
+    "elliptic": "^6.5.4",
     "express": "^4.18.2",
+    "uuid": "^9.0.0",
     "ws": "^8.9.0"
   }
 }
