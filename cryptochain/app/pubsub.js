@@ -16,11 +16,10 @@ class PubSub {
         this.subscribeToChanels();
 
         this.subscriber.on('message', 
-            (chanel, message) => this.handleMessage(chanel, message)
-            );
+            (chanel, message) => this.handleMessage(chanel, message));
     }
 
-    handleMessage({chanel, message}) {
+    handleMessage(chanel, message) {
         console.log(`Message recived. Chanel: ${chanel}. Message: ${message}`);
 
         const parsedMessage = JSON.parse(message);
@@ -33,11 +32,16 @@ class PubSub {
     subscribeToChanels() {
         Object.values(CHANELS).forEach(chanel => {
             this.subscriber.subscribe(chanel);
-        })
+        });
     }
 
     publish({chanel, message}) {
-        this.publisher.publish({chanel, message});
+        this.subscriber.unsubscribe(chanel, () => {
+            this.publisher.publish(chanel, message, () => {
+                this.subscriber.subscribe(chanel);
+            });
+        });
+        
     }
 
     broadcastChain() {
