@@ -12,5 +12,24 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "01714f10-5ec8-43b9-be58-4cc3663bc331",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/api/transact",
+    "url": "localhost:3000/api/transact",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-03T16:32:26.894Z",
+    "modified": "2022-11-03T16:38:42.572Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"recipient\": \"foo\",\n  \"amount\": 75\n}",
+      "form": []
+    },
+    "tests": []
   }
 ]

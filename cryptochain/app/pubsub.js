@@ -1,36 +1,45 @@
 const { json } = require('body-parser');
 const redis = require('redis');
 
-const CHANELS = {
+const CHANNELS = {
     TEST: 'TEST',
-    BLOCKCHAIN: 'BLOCKCHAIN'
+    BLOCKCHAIN: 'BLOCKCHAIN',
+    TRANSACTION: 'TRANSACTION'
 }
 
 class PubSub {
-    constructor({blockchain}) {
+    constructor({blockchain,transactionPool}) {
         this.blockchain = blockchain;
+        this.transactionPool = transactionPool;
 
         this.publisher = redis.createClient();
         this.subscriber = redis.createClient();
 
-        this.subscribeToChanels();
+        this.subscribeToChannels();
 
         this.subscriber.on('message', 
             (chanel, message) => this.handleMessage(chanel, message));
     }
 
     handleMessage(chanel, message) {
-        console.log(`Message recived. Chanel: ${chanel}. Message: ${message}`);
+        console.log(`Message received. Chanel: ${chanel}. Message: ${message}`);
 
         const parsedMessage = JSON.parse(message);
 
-        if (chanel === CHANELS.BLOCKCHAIN) {
-            this.blockchain.replaceChain(parsedMessage);
+        switch(chanel) {
+            case CHANNELS.BLOCKCHAIN:
+                this.blockchain.replaceChain(parsedMessage);
+                break;
+            case CHANNELS.TRANSACTION:
+                this.transactionPool.setTransaction(parsedMessage);
+                break;
+            default:
+                return;
         }
     }
 
-    subscribeToChanels() {
-        Object.values(CHANELS).forEach(chanel => {
+    subscribeToChannels() {
+        Object.values(CHANNELS).forEach(chanel => {
             this.subscriber.subscribe(chanel);
         });
     }
@@ -46,8 +55,15 @@ class PubSub {
 
     broadcastChain() {
         this.publish({
-            chanel: CHANELS.BLOCKCHAIN,
+            chanel: CHANNELS.BLOCKCHAIN,
             message: JSON.stringify(this.blockchain.chain)
+        })
+    }
+
+    broadcastTransaction(transaction) {
+        this.publish({
+            chanel: CHANNELS.TRANSACTION,
+            message: JSON.stringify(transaction)
         })
     }
 }
