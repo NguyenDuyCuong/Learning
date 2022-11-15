@@ -149,4 +149,18 @@ describe('Blockchain', () => {
             });
         });
     });
+
+    describe('new chain is valid', () => {
+        beforeEach(() => {
+            blockchain.replaceChain(newChain.chain);
+        });
+
+        it('replace chain', () =>{
+            expect(blockchain.chain).toEqual(newChain.chain);
+        });
+
+        if('log', () => {
+            expect(logMock).toHaveBeenCalled();
+        });
+    });
 });
