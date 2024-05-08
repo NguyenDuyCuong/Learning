@@ -1,0 +1,61 @@
+{
+  "name": "@orbitdb/quickstart",
+  "version": "1.0.0",
+  "description": "A preconfigured instance which allows developers to \"test drive\" OrbitDB.",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "cross-env mocha --config test/.mocharc.json",
+    "test:ci": "cross-env c8 mocha --config test/.mocharc.json",
+    "test:browser": "npm run build:tests && ./node_modules/.bin/playwright-test test/browser/bundle.js --runner mocha",
+    "build": "npm run build:dist && npm run build:debug",
+    "build:dist": "webpack --config conf/webpack.config.js",
+    "build:debug": "webpack --config conf/webpack.debug.config.js",
+    "build:tests": "rm -f test/browser/bundle.js* && webpack --config ./conf/webpack.tests.config.js",
+    "prepublishOnly": "npm run build",
+    "lint": "standard --env=mocha",
+    "lint:fix": "standard --fix",
+    "webrtc": "node ./test/utils/relay.js",
+    "webrtc:background": "node ./test/utils/relay.js &"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbitdb/quickstart.git"
+  },
+  "keywords": [
+    "orbitdb",
+    "quickstart",
+    "helia",
+    "libp2p"
+  ],
+  "author": "OrbitDB",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/orbitdb/quickstart/issues"
+  },
+  "homepage": "https://github.com/orbitdb/quickstart#readme",
+  "standard": {
+    "env": [
+      "mocha"
+    ],
+    "ignore": [
+      "test/browser/**"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "mocha": "^10.2.0",
+    "path-browserify": "^1.0.1",
+    "playwright-test": "^14.0.0",
+    "rimraf": "^5.0.5",
+    "standard": "^17.1.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@orbitdb/core": "^2.0.1",
+    "@orbitdb/quickstart": "^1.0.0",
+    "blockstore-level": "^1.1.7",
+    "helia": "^3.0.1"
+  }
+}
