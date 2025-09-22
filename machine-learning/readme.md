@@ -7,3 +7,10 @@
 - https://distill.pub/
 - Kaggle – Mini-course về ML, DL, kèm dữ liệu thực hành.
 - https://research.google/blog/
+
+## More Sepecification
+
+### timm
+- https://christianjmills.com/posts/pytorch-train-image-classifier-timm-hf-tutorial/
+
+### fastai
