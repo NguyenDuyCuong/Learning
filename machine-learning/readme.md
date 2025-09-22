@@ -7,6 +7,8 @@
 - https://distill.pub/
 - Kaggle – Mini-course về ML, DL, kèm dữ liệu thực hành.
 - https://research.google/blog/
+- https://github.com/airctic/icevision
+- https://github.com/jsbroks/awesome-dataset-tools
 
 ## More Sepecification
 
