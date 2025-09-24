@@ -16,3 +16,65 @@
 - https://christianjmills.com/posts/pytorch-train-image-classifier-timm-hf-tutorial/
 
 ### fastai
+
+---
+# Reserch
+
+## 🧩 1. Bản chất của segmentation với biên phức tạp
+- **Mục tiêu**: không chỉ phân biệt foreground–background, mà còn phải **bám sát từng pixel** ở biên dạng phức tạp (tay, tóc, quần áo).  
+- **Thách thức**:  
+  - Biên thường mảnh, dễ bị mất khi downsampling trong CNN.  
+  - Màu sắc foreground có thể trùng với background ở một số vùng.  
+  - Object người có nhiều tư thế, hình dạng biến thiên mạnh.  
+
+## 🧩 2. Các dòng kiến trúc chính
+### 🔹 U-Net và biến thể
+- **U-Net**: encoder–decoder + skip connections → giữ chi tiết biên.  
+- **U-Net++**: skip connections dày đặc hơn → biên mượt hơn.  
+- **Attention U-Net**: tập trung vào vùng có object, giảm nhiễu nền.  
+- **Điểm ít ai để ý**: U-Net rất mạnh khi dữ liệu không quá lớn, nhưng dễ bị “quá khớp” nếu augmentation không đủ đa dạng.
+
+### 🔹 DeepLab series
+- **DeepLabv3+**: atrous convolution + decoder tinh chỉnh biên.  
+- **Ưu điểm**: nắm bắt ngữ cảnh đa tỉ lệ, biên sắc nét hơn Mask R-CNN.  
+- **Điểm ít ai để ý**: atrous conv giúp giữ resolution, nhưng nếu stride không khéo, có thể bỏ sót chi tiết nhỏ.
+
+### 🔹 Mask R-CNN
+- Instance segmentation, phân biệt từng người riêng biệt.  
+- **Điểm yếu**: mask thường hơi “blocky” ở biên nhỏ, trừ khi dùng backbone rất mạnh.
+
+### 🔹 Transformer-based
+- **SegFormer**: nhẹ, chính xác, biên tốt nhờ attention đa tỉ lệ.  
+- **Mask2Former**: SOTA, unify semantic/instance/panoptic segmentation.  
+- **SAM (Segment Anything Model)**: biên cực chi tiết, nhưng cần fine-tune cho dữ liệu riêng.  
+- **Điểm ít ai để ý**: attention map trong transformer có thể “nhìn xuyên” màu sắc, nên đôi khi phân biệt object ngay cả khi foreground–background gần giống nhau.
+
+## 🧩 3. Vai trò của màu sắc
+- **Có lợi**: nếu foreground (đen) và background sáng → mô hình dễ học.  
+- **Hạn chế**: nếu nền cũng tối, màu sắc không còn phân biệt tốt → phải dựa vào biên hình học.  
+- **Điểm ít ai để ý**: augmentation màu (brightness, contrast, hue) không chỉ để tăng dữ liệu, mà còn giúp mô hình **không phụ thuộc tuyệt đối vào màu đen** của object. Điều này quan trọng nếu sau này object không còn “đen tuyệt đối” nữa.
+
+## 🧩 4. Kỹ thuật bổ trợ để biên chính xác hơn
+- **Edge-aware loss**: thêm thành phần loss tập trung vào biên (Boundary Loss, Dice Loss kết hợp).  
+- **Multi-task learning**: train segmentation + edge detection song song.  
+- **Kênh bổ sung**: ngoài RGB, thêm kênh edge (Canny, Sobel) hoặc frequency (Fourier) để mô hình “nhìn” rõ biên.  
+- **Test Time Augmentation (TTA)**: lật, xoay ảnh khi inference rồi ensemble → biên mượt hơn.  
+- **Điểm ít ai để ý**: nhiều nhóm nghiên cứu dùng **CRF (Conditional Random Field)** hoặc **Graph-based refinement** sau segmentation để “làm sắc nét” biên, nhưng thường bị bỏ qua vì tốn thời gian.
+
+
+## 🧩 5. Lựa chọn thực tế cho bài toán của bạn
+- **Nếu dữ liệu vừa phải, muốn triển khai nhanh** → **U-Net++ hoặc Attention U-Net**.  
+- **Nếu dữ liệu lớn, muốn SOTA, biên sắc nét** → **DeepLabv3+ hoặc SegFormer**.  
+- **Nếu muốn đa năng, thử nghiệm nhanh, biên cực chi tiết** → **SAM hoặc Mask2Former** (nhưng cần GPU mạnh).  
+- **Nếu cực kỳ quan tâm đến biên** → kết hợp segmentation backbone + edge-aware loss + CRF refinement.  
+
+
+## 🧩 6. Kết luận chiến lược
+- **Màu sắc**: hữu ích nhưng không đủ → phải kết hợp biên hình học.  
+- **Kiến trúc**: chọn U-Net++/DeepLabv3+/SegFormer tuỳ dữ liệu và tài nguyên.  
+- **Tinh chỉnh**: dùng loss chuyên cho biên + augmentation màu + edge channel.  
+- **Điểm ít ai để ý**: nhiều mô hình đạt mIoU cao nhưng biên vẫn xấu; để tối ưu biên, cần **loss và post-processing chuyên biệt**, không chỉ backbone mạnh.
+
+
+👉 Tóm gọn: Nếu bạn muốn **biên người đen trên nền sáng** thật chính xác, giải pháp tối ưu là **DeepLabv3+ hoặc SegFormer**, kết hợp **edge-aware loss** và **augmentation màu**, có thể thêm **CRF refinement** để “mài sắc” biên.  
+
