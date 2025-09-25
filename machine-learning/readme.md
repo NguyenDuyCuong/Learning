@@ -78,3 +78,24 @@
 
 👉 Tóm gọn: Nếu bạn muốn **biên người đen trên nền sáng** thật chính xác, giải pháp tối ưu là **DeepLabv3+ hoặc SegFormer**, kết hợp **edge-aware loss** và **augmentation màu**, có thể thêm **CRF refinement** để “mài sắc” biên.  
 
+
+## 🧠 Mô hình
+- **DeepLabv3+**  
+  - Mạnh về multi-scale context (ASPP) + decoder refine biên.  
+  - Rất hợp cho bài toán cần **biên sắc nét**.  
+- **SegFormer**  
+  - Transformer-based, nhẹ hơn, generalize tốt, đặc biệt khi dữ liệu đa dạng ánh sáng/màu.  
+  - Thường outperform trên dataset mới.
+
+## 🔧 Kỹ thuật tăng cường
+- **Edge-aware loss** (Boundary loss, Dice + BCE + Edge loss): ép model học biên tốt hơn.  
+- **Color augmentation** (brightness/contrast jitter, hue shift): giúp model robust với nền sáng/tối.  
+- **CRF refinement**: mài sắc biên, đặc biệt khi foreground–background tương phản mạnh.
+
+## 📌 Gợi ý pipeline tối ưu
+1. Dùng **mmsegmentation** với backbone từ **timm** (ví dụ Swin Transformer).  
+2. Chạy **SegFormer** baseline → so sánh với **DeepLabv3+**.  
+3. Thêm **edge-aware loss** (Boundary loss hoặc Sobel-based edge supervision).  
+4. Áp dụng **color jitter + random gamma** augmentation.  
+5. Hậu xử lý bằng **DenseCRF** hoặc **GraphCut refinement** để sharpen mask.  
+
