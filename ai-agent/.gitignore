@@ -1,0 +1,8 @@
+models
+node_modules
+.idea
+.env
+internal
+ui
+*.txt
+node-llama-docs
