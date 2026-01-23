@@ -37,6 +37,7 @@ func main() {
 
 	// Create P2P node
 	fmt.Println("🔄 Starting P2P node...")
+	fmt.Println("🌐 Hybrid Mode: LAN (mDNS) + Internet (DHT/Relay) active")
 	node, err := p2p.NewNode(ctx, dataDir)
 	if err != nil {
 		fmt.Printf("❌ Failed to start node: %v\n", err)

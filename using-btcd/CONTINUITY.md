@@ -28,10 +28,14 @@ Tạo decentralized Todo/Task management app hỗ trợ LAN (mDNS) và Internet 
 - Thêm lệnh `connect <multiaddress>`
 - Cấu hình AutoRelay, DHT, QUIC và Hole Punching
 - Khử trùng lặp local address trong peer discovery
-- Build binary thành công (p2p-todo.exe)
+- Build binary thành công (p2p-todo.exe, p2p-todo-linux)
+- Đã sửa lỗi panic AutoRelay bằng cách cung cấp PeerSource
+- Triển khai chế độ Hybrid (LAN + Internet tự động)
+- Sử dụng Public Bootstrap Nodes và Circuit Relays (Protocol Labs)
 
 ### Now
-- Verifying with user
+- P2P Bootstrapping fixed (Connected to bootstrap nodes).
+- Mode Hybrid (LAN + Internet) fully functional.
 
 ### Next
 - (Optional) Add bootstrap nodes for easier internet discovery
