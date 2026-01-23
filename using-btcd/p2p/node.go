@@ -62,10 +62,6 @@ type Message struct {
 
 // DefaultBootstrapNodes is a list of public libp2p bootstrap nodes (Protocol Labs)
 var DefaultBootstrapNodes = []string{
-	"/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7ZQCbWw4ZiGghE9B3DH4t1R77qcphTerjBYMwt",
-	"/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcNmSRRL6rLjtDeLVCgeuYksvifLY2HtdcfZPb3p",
-	"/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoWSWSMvJtp3KHh4fgn7CYf94G73G48RLm7oN9q",
-	"/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8qeeJgmMpVMiH4vS6S4F96qS2M",
 	"/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 }
 

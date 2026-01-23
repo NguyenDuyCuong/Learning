@@ -6,7 +6,7 @@
 
 ```bash
 # Build
-go build -o p2p-todo.exe
+$env:GOOS='windows'; $env:GOARCH='amd64'; go build -o p2p-todo.exe .; $env:GOOS='linux'; $env:GOARCH='amd64'; go build -o p2p-todo-linux .
 
 # Run
 ./p2p-todo.exe
