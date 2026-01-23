@@ -2,18 +2,24 @@ package p2p
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"os"
+	"path/filepath"
 	"sync"
 	"time"
 
 	"github.com/libp2p/go-libp2p"
+	dht "github.com/libp2p/go-libp2p-kad-dht"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
+	"github.com/libp2p/go-libp2p/core/crypto"
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/libp2p/go-libp2p/p2p/discovery/mdns"
 	libp2pnoise "github.com/libp2p/go-libp2p/p2p/security/noise"
 	libp2ptls "github.com/libp2p/go-libp2p/p2p/security/tls"
+	"github.com/multiformats/go-multiaddr"
 )
 
 const (
@@ -30,6 +36,7 @@ type Node struct {
 	PubSub          *pubsub.PubSub
 	Topic           *pubsub.Topic
 	Sub             *pubsub.Subscription
+	DHT             *dht.IpfsDHT
 	PeerID          string
 	OnMessage       func([]byte) // callback when message received
 	OnPeerConnected func()       // callback when new peer connects
@@ -54,23 +61,45 @@ type Message struct {
 }
 
 // NewNode creates a new P2P node
-func NewNode(ctx context.Context) (*Node, error) {
-	// Create libp2p host
+func NewNode(ctx context.Context, dataDir string) (*Node, error) {
+	// 1. Load or generate identity key
+	priv, err := loadOrGenerateKey(dataDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load identity: %w", err)
+	}
+
+	// 2. Create libp2p host with advanced features
 	h, err := libp2p.New(
+		libp2p.Identity(priv),
 		libp2p.ListenAddrStrings(
-			"/ip4/0.0.0.0/tcp/0", // Random port
+			"/ip4/0.0.0.0/tcp/0",      // Random TCP port
+			"/ip4/0.0.0.0/udp/0/quic", // Random QUIC port
 		),
-		// Explicitly set security transports to avoid negotiation mismatches
+		// Security
 		libp2p.Security(libp2pnoise.ID, libp2pnoise.New),
 		libp2p.Security(libp2ptls.ID, libp2ptls.New),
-		// Help with NAT/Firewalls on LAN
+		// NAT Traversal & Relay
 		libp2p.NATPortMap(),
+		libp2p.EnableAutoRelay(),
+		libp2p.EnableHolePunching(),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create host: %w", err)
 	}
 
-	// Create PubSub with GossipSub
+	// 3. Setup DHT for network routing and peer discovery
+	kademliaDHT, err := dht.New(ctx, h)
+	if err != nil {
+		h.Close()
+		return nil, fmt.Errorf("failed to create dht: %w", err)
+	}
+
+	if err = kademliaDHT.Bootstrap(ctx); err != nil {
+		h.Close()
+		return nil, fmt.Errorf("failed to bootstrap dht: %w", err)
+	}
+
+	// 4. Create PubSub with GossipSub
 	ps, err := pubsub.NewGossipSub(ctx, h)
 	if err != nil {
 		h.Close()
@@ -97,6 +126,7 @@ func NewNode(ctx context.Context) (*Node, error) {
 		PubSub: ps,
 		Topic:  topic,
 		Sub:    sub,
+		DHT:    kademliaDHT,
 		PeerID: h.ID().String(),
 		peers:  make(map[peer.ID]struct{}),
 	}
@@ -113,10 +143,69 @@ func NewNode(ctx context.Context) (*Node, error) {
 	return node, nil
 }
 
+// loadOrGenerateKey manages the node's private key persistence
+func loadOrGenerateKey(dataDir string) (crypto.PrivKey, error) {
+	keyPath := filepath.Join(dataDir, "priv.key")
+
+	// Try loading existing key
+	data, err := os.ReadFile(keyPath)
+	if err == nil {
+		return crypto.UnmarshalPrivateKey(data)
+	}
+
+	// Generate new key if not found
+	fmt.Println("🔑 Generating new identity key...")
+	priv, _, err := crypto.GenerateKeyPairWithReader(crypto.Ed25519, -1, rand.Reader)
+	if err != nil {
+		return nil, err
+	}
+
+	// Save the key
+	data, err = crypto.MarshalPrivateKey(priv)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.WriteFile(keyPath, data, 0600)
+	return priv, err
+}
+
 // setupMDNS sets up mDNS peer discovery
 func (n *Node) setupMDNS() error {
 	s := mdns.NewMdnsService(n.Host, ServiceTag, n)
 	return s.Start()
+}
+
+// Connect manually connects to a peer via multiaddress
+func (n *Node) Connect(addrStr string) error {
+	addr, err := multiaddr.NewMultiaddr(addrStr)
+	if err != nil {
+		return fmt.Errorf("invalid address: %w", err)
+	}
+
+	info, err := peer.AddrInfoFromP2pAddr(addr)
+	if err != nil {
+		return fmt.Errorf("invalid peer address: %w", err)
+	}
+
+	ctx, cancel := context.WithTimeout(n.ctx, 15*time.Second)
+	defer cancel()
+
+	if err := n.Host.Connect(ctx, *info); err != nil {
+		return err
+	}
+
+	// If we connect manually, we should also track it
+	n.mu.Lock()
+	n.peers[info.ID] = struct{}{}
+	n.mu.Unlock()
+
+	// Trigger sync
+	if n.OnPeerConnected != nil {
+		go n.OnPeerConnected()
+	}
+
+	return nil
 }
 
 // HandlePeerFound implements mdns.Notifee
@@ -125,6 +214,8 @@ func (n *Node) HandlePeerFound(pi peer.AddrInfo) {
 		return // Ignore self
 	}
 
+	// Filter out addresses that are likely ourselves (matching our own listening addresses)
+	// This helps with the "Noise handshake" error when discovering old versions of ourselves on the same machine
 	n.mu.Lock()
 	_, exists := n.peers[pi.ID]
 	n.mu.Unlock()
@@ -140,6 +231,7 @@ func (n *Node) HandlePeerFound(pi peer.AddrInfo) {
 	defer cancel()
 
 	if err := n.Host.Connect(ctx, pi); err != nil {
+		// Only log failure if it's not a self-connection error we're trying to avoid
 		fmt.Printf("❌ Failed to connect to peer %s: %v\n", pi.ID.String()[:8], err)
 		return
 	}

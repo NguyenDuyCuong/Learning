@@ -36,8 +36,11 @@ func (m *Manager) Add(title string) *crdt.Todo {
 }
 
 // MarkDone marks a todo as done
-func (m *Manager) MarkDone(id string) bool {
-	return m.store.MarkDone(id, m.peerID, time.Now().UnixNano())
+func (m *Manager) MarkDone(id string) *crdt.Todo {
+	if m.store.MarkDone(id, m.peerID, time.Now().UnixNano()) {
+		return m.store.Get(id)
+	}
+	return nil
 }
 
 // List returns all todos

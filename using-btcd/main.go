@@ -37,7 +37,7 @@ func main() {
 
 	// Create P2P node
 	fmt.Println("🔄 Starting P2P node...")
-	node, err := p2p.NewNode(ctx)
+	node, err := p2p.NewNode(ctx, dataDir)
 	if err != nil {
 		fmt.Printf("❌ Failed to start node: %v\n", err)
 		os.Exit(1)
@@ -191,8 +191,11 @@ func main() {
 				fmt.Println("❌ Todo not found")
 				continue
 			}
-			if manager.MarkDone(id) {
+			if t := manager.MarkDone(id); t != nil {
 				fmt.Println("✅ Marked as done")
+				// Broadcast the update
+				data, _ := json.Marshal(t)
+				node.Broadcast(p2p.MsgUpdate, data)
 			}
 
 		case "delete", "del", "rm":
@@ -210,8 +213,22 @@ func main() {
 
 		case "peers":
 			fmt.Printf("👥 Connected peers: %d\n", node.PeerCount())
+			fmt.Println("📡 Your Addresses:")
 			for _, addr := range node.Addresses() {
 				fmt.Printf("   %s\n", addr)
+			}
+
+		case "connect":
+			if len(parts) < 2 {
+				fmt.Println("Usage: connect <multiaddress>")
+				continue
+			}
+			addr := parts[1]
+			fmt.Printf("🔗 Connecting to %s...\n", addr)
+			if err := node.Connect(addr); err != nil {
+				fmt.Printf("❌ Connection failed: %v\n", err)
+			} else {
+				fmt.Println("✓ Connected successfully!")
 			}
 
 		case "sync":
