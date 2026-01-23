@@ -66,9 +66,6 @@ var DefaultBootstrapNodes = []string{
 	"/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcNmSRRL6rLjtDeLVCgeuYksvifLY2HtdcfZPb3p",
 	"/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoWSWSMvJtp3KHh4fgn7CYf94G73G48RLm7oN9q",
 	"/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8qeeJgmMpVMiH4vS6S4F96qS2M",
-	"/ip4/147.75.109.213/tcp/4001/p2p/QmNnooDu7ZQCbWw4ZiGghE9B3DH4t1R77qcphTerjBYMwt",
-	"/ip4/147.75.83.83/tcp/4001/p2p/QmbLHAnMoWSWSMvJtp3KHh4fgn7CYf94G73G48RLm7oN9q",
-	// Updated Peer ID for the IPFS gateway
 	"/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
 }
 

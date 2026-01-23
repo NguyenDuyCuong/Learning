@@ -50,12 +50,15 @@ func (m *Manager) List() []*crdt.Todo {
 
 // Delete removes a todo
 func (m *Manager) Delete(id string) {
-	m.store.Delete(id)
+	m.store.Delete(id, m.peerID, time.Now().UnixNano())
 }
 
 // generateID creates a short random ID
 func generateID() string {
 	b := make([]byte, 4)
-	rand.Read(b)
+	if _, err := rand.Read(b); err != nil {
+		// Fallback to timestamp if entropy fails
+		return hex.EncodeToString([]byte(time.Now().String()[:8]))
+	}
 	return hex.EncodeToString(b)
 }

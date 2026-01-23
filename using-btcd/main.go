@@ -209,8 +209,16 @@ func main() {
 				fmt.Println("❌ Todo not found")
 				continue
 			}
+
+			// Mark as deleted in store
 			manager.Delete(id)
-			fmt.Println("🗑️  Deleted")
+			fmt.Println("🗑️  Deleted locally and broadcasting tombstone...")
+
+			// Broadcast the deletion (tombstone)
+			if t := store.Get(id); t != nil {
+				data, _ := json.Marshal(t)
+				node.Broadcast(p2p.MsgUpdate, data)
+			}
 
 		case "peers":
 			fmt.Printf("👥 Connected peers: %d\n", node.PeerCount())

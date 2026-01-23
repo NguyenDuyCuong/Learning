@@ -11,6 +11,7 @@ type Todo struct {
 	ID        string `json:"id"`
 	Title     string `json:"title"`
 	Done      bool   `json:"done"`
+	Deleted   bool   `json:"deleted"`   // Tombstone for CRDT deletion
 	Timestamp int64  `json:"timestamp"` // Unix nano for LWW
 	Author    string `json:"author"`    // Peer ID who created/modified
 }
@@ -29,7 +30,7 @@ func NewStore(filePath string) *Store {
 		todos:    make(map[string]*Todo),
 		filePath: filePath,
 	}
-	s.load()
+	_ = s.load() // Best effort load
 	return s
 }
 
@@ -44,13 +45,15 @@ func (s *Store) Add(todo *Todo) bool {
 	defer s.mu.Unlock()
 
 	existing, exists := s.todos[todo.ID]
-	if exists && existing.Timestamp >= todo.Timestamp {
-		// Existing version is newer or equal, ignore
-		return false
+	if exists {
+		if existing.Timestamp >= todo.Timestamp {
+			// Existing version is newer or equal, ignore
+			return false
+		}
 	}
 
 	s.todos[todo.ID] = todo
-	s.persist()
+	_ = s.persist()
 
 	if s.onChange != nil {
 		s.onChange()
@@ -66,14 +69,16 @@ func (s *Store) Get(id string) *Todo {
 	return s.todos[id]
 }
 
-// List returns all todos
+// List returns all non-deleted todos
 func (s *Store) List() []*Todo {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	result := make([]*Todo, 0, len(s.todos))
 	for _, t := range s.todos {
-		result = append(result, t)
+		if !t.Deleted {
+			result = append(result, t)
+		}
 	}
 	return result
 }
@@ -84,7 +89,7 @@ func (s *Store) MarkDone(id string, author string, timestamp int64) bool {
 	defer s.mu.Unlock()
 
 	existing, exists := s.todos[id]
-	if !exists {
+	if !exists || existing.Deleted {
 		return false
 	}
 
@@ -95,7 +100,7 @@ func (s *Store) MarkDone(id string, author string, timestamp int64) bool {
 	existing.Done = true
 	existing.Timestamp = timestamp
 	existing.Author = author
-	s.persist()
+	_ = s.persist()
 
 	if s.onChange != nil {
 		s.onChange()
@@ -104,12 +109,39 @@ func (s *Store) MarkDone(id string, author string, timestamp int64) bool {
 	return true
 }
 
-// Delete removes a todo (by marking with special timestamp)
-func (s *Store) Delete(id string) {
+// Delete marks a todo as deleted (Tombstone)
+func (s *Store) Delete(id string, author string, timestamp int64) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	delete(s.todos, id)
-	s.persist()
+
+	existing, exists := s.todos[id]
+	if !exists {
+		// Even if it doesn't exist, we might want to store the tombstone
+		// but for simplicity in this CLI app, we only delete existing ones.
+		// However, a true CRDT should store the tombstone.
+		s.todos[id] = &Todo{
+			ID:        id,
+			Deleted:   true,
+			Timestamp: timestamp,
+			Author:    author,
+		}
+		_ = s.persist()
+		return true
+	}
+
+	if existing.Timestamp >= timestamp {
+		return false
+	}
+
+	existing.Deleted = true
+	existing.Timestamp = timestamp
+	existing.Author = author
+	_ = s.persist()
+
+	if s.onChange != nil {
+		s.onChange()
+	}
+	return true
 }
 
 // Merge merges another store's state into this one (CRDT merge)
@@ -123,25 +155,35 @@ func (s *Store) Merge(todos []*Todo) int {
 	return merged
 }
 
-// GetState returns all todos for syncing
+// GetState returns all todos (including tombstones) for syncing
 func (s *Store) GetState() []*Todo {
-	return s.List()
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	result := make([]*Todo, 0, len(s.todos))
+	for _, t := range s.todos {
+		result = append(result, t)
+	}
+	return result
 }
 
 // persist saves state to file
-func (s *Store) persist() {
+func (s *Store) persist() error {
 	data, err := json.MarshalIndent(s.todos, "", "  ")
 	if err != nil {
-		return
+		return err
 	}
-	os.WriteFile(s.filePath, data, 0644)
+	return os.WriteFile(s.filePath, data, 0644)
 }
 
 // load loads state from file
-func (s *Store) load() {
+func (s *Store) load() error {
 	data, err := os.ReadFile(s.filePath)
 	if err != nil {
-		return
+		if os.IsNotExist(err) {
+			return nil
+		}
+		return err
 	}
-	json.Unmarshal(data, &s.todos)
+	return json.Unmarshal(data, &s.todos)
 }

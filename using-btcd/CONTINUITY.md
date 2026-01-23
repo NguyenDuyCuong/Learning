@@ -8,37 +8,38 @@ Tạo decentralized Todo/Task management app hỗ trợ LAN (mDNS) và Internet 
 - Auto-discovery peers bằng mDNS (LAN) và DHT (WAN)
 - Lệnh `connect <addr>` cho phép join từ Internet qua Multiaddress
 - Peer ID persistence lưu tại `.p2p-todo/priv.key`
-- Data sync đồng nhất qua CRDT LWW-Map
+- Data sync đồng nhất qua CRDT LWW-Map (với Tombstones cho deletion)
+- Reliable bootstrapping (không treo lâu khi node chết)
 
 ## Constraints/Assumptions
 - Hỗ trợ cả Offline LAN và Online Internet
 - Tự động vượt NAT (UPnP, Hole Punching, Relay)
 - libp2p networking (Noise, TLS, QUIC, TCP)
-- CRDT cho data consistency
+- CRDT cho data consistency (LWW-Map)
 
 ## Key decisions
 - ✅ Identity: Persistent Peer IDs (Ed25519)
 - ✅ Discovery: mDNS + DHT Dual mode
 - ✅ Connectivity: AutoRelay + Hole Punching (DCUtR) enabled
 - ✅ Interface: CLI với lệnh sync và connect thủ công
+- 🛠️ Data: Switching to Tombstone-based deletion for true CRDT behavior
 
 ## State
 ### Done
-- Peer ID Persistence (sửa lỗi "message too short" do self-dial)
-- Thêm lệnh `connect <multiaddress>`
-- Cấu hình AutoRelay, DHT, QUIC và Hole Punching
-- Khử trùng lặp local address trong peer discovery
-- Build binary thành công (p2p-todo.exe, p2p-todo-linux)
-- Đã sửa lỗi panic AutoRelay bằng cách cung cấp PeerSource
-- Triển khai chế độ Hybrid (LAN + Internet tự động)
-- Sử dụng Public Bootstrap Nodes và Circuit Relays (Protocol Labs)
+- Peer ID Persistence
+- AutoRelay, DHT, QUIC và Hole Punching
+- Hybrid mode (LAN + Internet)
+- Fixed bootstrap Peer ID mismatch
 
 ### Now
-- P2P Bootstrapping fixed (Connected to bootstrap nodes).
-- Mode Hybrid (LAN + Internet) fully functional.
+- Cleaning up bootstrap nodes to remove unreliable entries.
+- Refactoring `crdt/store.go` to support Tombstones for deletions.
+- Improving error handling across the codebase.
+- Code review and cleanup.
 
 ### Next
-- (Optional) Add bootstrap nodes for easier internet discovery
+- Implement user-friendly connection status in CLI.
+- (Optional) Better conflict resolution messages.
 
 ## Open questions
 - (none)
