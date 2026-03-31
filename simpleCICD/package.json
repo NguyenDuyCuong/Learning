@@ -15,7 +15,7 @@
     "child_process": "^1.0.2",
     "express": "^4.17.1",
     "express-pino-logger": "^5.0.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "morgan": "^1.10.0",
     "node-powershell": "^4.0.0",
     "pino": "^6.3.0",
